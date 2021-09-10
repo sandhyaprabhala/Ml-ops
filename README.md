@@ -1,6 +1,6 @@
 # Ml-ops
 
-Gamma_Value:     Accuracy:       F1_Score: \n
+Gamma_Value:     Accuracy:       F1_Score:<br />
 1e-05   0.8925925925925926      0.8942076786182275
 Gamma_Value:     Accuracy:       F1_Score:
 0.0001  0.9703703703703703      0.9673640666861004
