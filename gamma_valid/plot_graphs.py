@@ -26,19 +26,6 @@ from joblib import dump, load
 import os
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 digits = datasets.load_digits()
 
 _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
