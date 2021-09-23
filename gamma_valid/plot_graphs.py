@@ -16,15 +16,14 @@ print(__doc__)
 
 
 # Import datasets, classifiers and performance metrics
-from sklearn import datasets, svm, metrics
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
+from sklearn import datasets, svm
 from skimage import data, color
+import matplotlib.pyplot as plt
 from skimage.transform import rescale
 import numpy as np
 from joblib import dump, load
 import os
-
+import utils
 
 digits = datasets.load_digits()
 
@@ -49,23 +48,19 @@ for gmvalue in [10 ** exponent for exponent in range(-7,0)]:
   clf = svm.SVC(gamma=gmvalue)
 
   #Train-Validation-Test split
-  X_train, X_test, y_train, y_test = train_test_split(data, digits.target, test_size= test_size, random_state=1)
-  X_test, X_val, y_test, y_val = train_test_split(X_test, y_test, test_size=0.5, random_state=1)
+  X_train, X_test, X_val, y_train,y_test,y_val = utils.create_splits(data,digits.target,test_size)
 
   #Learn the digits on the train data
   clf.fit(X_train, y_train)
 
-  #Predict the value of the digit on the validation
-  predicted2 = clf.predict(X_val)
-
-  acc = metrics.accuracy_score(y_pred=predicted2, y_true=y_val)
-  f1_valid = metrics.f1_score(y_pred=predicted2, y_true=y_val, average='macro')
+  #Predict digits on the validation data
+  metrics_val = utils.test(clf,X_val,y_val)
 
   #throw away the models that yield random-like performance.
-  if acc < 0.11:
+  if metrics_val['acc'] < 0.11:
     print("{} not stored".format(gmvalue))
     continue
-  candidate ={"model" : clf,"acc_valid" : acc,"f1_valid" : f1_valid,"gamma" : gmvalue,}
+  candidate ={"model" : clf,"acc_valid" : metrics_val['acc'],"f1_valid" : metrics_val['f1'],"gamma" : gmvalue,}
   model_candidates.append(candidate)
 
   #storing the model
@@ -77,16 +72,15 @@ for gmvalue in [10 ** exponent for exponent in range(-7,0)]:
   #predicting the test data on the best gamma
 max_candidate = max(model_candidates, key = lambda x :x["f1_valid"])
 best_gamma = max_candidate["gamma"]
-best_model_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/gamma_valid/models/test_{}_val_{}_gamma_{}".format((test_size/2),(test_size/2),max_candidate["gamma"])
+best_model_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/gamma_valid/models/test_{}_val_{}_gamma_{}".format((test_size/2),(test_size/2),best_gamma)
 
 clf = load(os.path.join(best_model_folder,"models.joblib"))
-predicted1 = max_candidate["model"].predict(X_test)
+
 
 
 #printing accuracies
-acc1 = metrics.accuracy_score(y_pred=predicted1, y_true=y_test)
-f1_test = metrics.f1_score(y_pred=predicted1, y_true=y_test, average='macro')
+metrics_test = utils.test(clf,X_test,y_test)
 
 print("\nBest Gamma is: {}\n".format(best_gamma))
-print("Test Accuracy at {} is {}".format(best_gamma,acc1))
-print("f1_Score for Test Set at {} is {}\n".format(best_gamma,f1_test))
+print("Test Accuracy at {} is {}".format(best_gamma,metrics_test['acc']))
+print("f1_Score for Test Set at {} is {}\n".format(best_gamma,metrics_test['f1']))
