@@ -8,7 +8,7 @@ Best Gamma Value:</br>
 
 Model Selection:</br>
 
-![image](https://user-images.githubusercontent.com/88537096/134474660-21174f52-7402-4692-9651-32d573ace10c.png)
+![image](https://user-images.githubusercontent.com/88537096/134514917-4b58462d-f50a-4049-9a87-f366ad697bdb.png)
 
 
 
