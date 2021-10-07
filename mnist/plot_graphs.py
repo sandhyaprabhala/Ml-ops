@@ -50,6 +50,8 @@ for gmvalue in [10 ** exponent for exponent in range(-7,0)]:
   #Train-Validation-Test split
   X_train, X_test, X_val, y_train,y_test,y_val = utils.create_splits(data,digits.target,test_size)
 
+
+
   #Learn the digits on the train data
   clf.fit(X_train, y_train)
 
@@ -63,8 +65,7 @@ for gmvalue in [10 ** exponent for exponent in range(-7,0)]:
   candidate ={"model" : clf,"acc_valid" : metrics_val['acc'],"f1_valid" : metrics_val['f1'],"gamma" : gmvalue,}
   model_candidates.append(candidate)
 
-  #storing the model
-  output_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/mnist/models/test_{}_val_{}_gamma_{}".format((test_size/2),(test_size/2),gmvalue)
+  output_folder = utils.model_path(test_size,gmvalue)
   os.mkdir(output_folder)
   dump(clf, os.path.join(output_folder,"models.joblib"))
 
