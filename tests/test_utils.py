@@ -17,7 +17,7 @@ for gmvalue in gamma:
     
 #---------QUIZ - 2--------------
 #-------test cases for the create_split------  
-    def test_create_split():
+    def test_create_split_1():
 
         #Train-Validation-Test split
         X_train, X_test, X_val, y_train,y_test,y_val = utils.create_splits(data,digits.target,test_size)
@@ -32,5 +32,31 @@ for gmvalue in gamma:
         assert x == x1
         assert y == x2
         assert z == x3
+
+    '''def test_create_split_2():
+
+        #Train-Validation-Test split
+        X_train, X_test, X_val, y_train,y_test,y_val = utils.create_splits(data,digits.target,test_size)
+        x = len(X_train)
+        y = len(X_test)
+        z = len(X_val)
+        sum = x + y + z
+        assert sum == 100
+        assert x == 70
+        assert y == 20
+        assert z == 10
+    def test_create_split_3():
+
+        #Train-Validation-Test split
+        X_train, X_test, X_val, y_train,y_test,y_val = utils.create_splits(data,digits.target,test_size)
+        x = len(X_train)
+        y = len(X_test)
+        z = len(X_val)
+        sum = x + y + z
+        assert sum == 9
+        assert x == 6
+        assert y == 2
+        assert z == 1  
+    ''' 
     
   
