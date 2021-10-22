@@ -2,6 +2,7 @@
 from sklearn.model_selection import train_test_split
 from sklearn import datasets, svm, metrics
 import os
+from sklearn import tree
 
 def create_splits(data,target,test_size):
 
@@ -21,9 +22,8 @@ def test(clf,X,y):
 
     return m
 
-def model_path(test_size,gmvalue):
+def model_path(test_size,value):
     
-    output_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/mnist/models/test_{}_val_{}_gamma_{}".format((test_size/2),(test_size/2),gmvalue)
+    output_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/mnist/models/test_{}_val_{}_hyperparameter_{}".format((test_size/2),(test_size/2),value)
     return output_folder
     
-
