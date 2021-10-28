@@ -24,7 +24,6 @@ import numpy as np
 from joblib import dump, load
 import os
 import utils
-from sklearn import tree
 
 digits = datasets.load_digits()
 
@@ -44,42 +43,37 @@ data = digits.images.reshape((n_samples, -1))
 #for test_size in test_sizes:
 model_candidates = []
 test_size = 0.3
-#for gmvalue in [10 ** exponent for exponent in range(-7,0)]:
-for max_depth in [5,6,7]:
-
+for gmvalue in [10 ** exponent for exponent in range(-7,0)]:
   #Create a classifier: a support vector classifier
-  
-  #clf = svm.SVC(gamma=gmvalue)
+  clf = svm.SVC(gamma=gmvalue)
 
-  clf = tree.DecisionTreeClassifier(max_depth = max_depth)
-    #Train-Validation-Test split
+  #Train-Validation-Test split
   X_train, X_test, X_val, y_train,y_test,y_val = utils.create_splits(data,digits.target,test_size)
 
-    #Learn the digits on the train data
+
+
+  #Learn the digits on the train data
   clf.fit(X_train, y_train)
 
-    #Predict digits on the validation data
+  #Predict digits on the validation data
   metrics_val = utils.test(clf,X_val,y_val)
 
-    #throw away the models that yield random-like performance.
-
-  #if metrics_val['acc'] < 0.11:
-  #  print("{} not stored".format(max_depth))
-  #  continue
-
-  candidate ={"model" : clf,"acc_valid" : metrics_val['acc'],"f1_valid" : metrics_val['f1'], "depth" : max_depth}
+  #throw away the models that yield random-like performance.
+  if metrics_val['acc'] < 0.11:
+    print("{} not stored".format(gmvalue))
+    continue
+  candidate ={"model" : clf,"acc_valid" : metrics_val['acc'],"f1_valid" : metrics_val['f1'],"gamma" : gmvalue,}
   model_candidates.append(candidate)
 
-  output_folder = utils.model_path(test_size,max_depth)
+  output_folder = utils.model_path(test_size,gmvalue)
   os.mkdir(output_folder)
   dump(clf, os.path.join(output_folder,"models.joblib"))
 
-    #loading the best model
-    #predicting the test data on the best gamma
+  #loading the best model
+  #predicting the test data on the best gamma
 max_candidate = max(model_candidates, key = lambda x :x["f1_valid"])
-best_depth = max_candidate["depth"]
-#best_gamma = max_candidate["gamma"]
-best_model_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/mnist/models/test_{}_val_{}_hyperparameter_{}".format((test_size/2),(test_size/2),best_depth)
+best_gamma = max_candidate["gamma"]
+best_model_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/mnist/models/test_{}_val_{}_hyperparameter_{}".format((test_size/2),(test_size/2),best_gamma)
 
 clf = load(os.path.join(best_model_folder,"models.joblib"))
 
@@ -88,7 +82,6 @@ clf = load(os.path.join(best_model_folder,"models.joblib"))
 #printing accuracies
 metrics_test = utils.test(clf,X_test,y_test)
 
-#print("\nBest Gamma is: {}\n".format(best_gamma))
-print("\nBest Depth is: {}\n".format(best_depth))
-print("Test Accuracy is {}".format(metrics_test['acc']))
-print("f1_Score for Test Set is {}\n".format(metrics_test['f1']))
+print("\nBest Gamma is: {}\n".format(best_gamma))
+print("Test Accuracy at {} is {}".format(best_gamma,metrics_test['acc']))
+print("f1_Score for Test Set at {} is {}\n".format(best_gamma,metrics_test['f1']))
