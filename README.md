@@ -1,5 +1,17 @@
 # Ml-ops
 
+Assignment - 8 : </br>
+program is in mnist->compare_classifier.py </br>
+Date : 8-11-2021 </br>
+
+![A8(1)](https://user-images.githubusercontent.com/88537096/140733692-aa097bc5-9686-4c4a-93f9-2f4b2075180d.jpg) </br>
+
+
+![A8(2)](https://user-images.githubusercontent.com/88537096/140733727-95e8a253-e715-4588-bd40-5ac628b5d8eb.jpg) </br>
+
+
+![A8(3)](https://user-images.githubusercontent.com/88537096/140733737-45c08fa5-a6d6-49f9-adff-21246fb2b1e6.jpg) </br>
+
 
 Assignment - 7 : </br>
 program is in mnist->compare_classifier.py </br>
