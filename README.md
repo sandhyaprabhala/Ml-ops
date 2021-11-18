@@ -1,4 +1,14 @@
 # Ml-ops
+Assignment - 9 : </br>
+program is in mnist->api->hello.py </br>
+Date : 18-11-2021 </br>
+
+
+
+![Assignment-9(1](https://user-images.githubusercontent.com/88537096/142363169-f63787bc-5f5c-4991-be5c-3512e3141f40.png)
+
+![Assignment-9(2](https://user-images.githubusercontent.com/88537096/142363187-edd5ec2c-dd1f-4eb5-b609-96af2ff9f3b0.png)
+
 
 Assignment - 8 : </br>
 program is in mnist->compare_classifier.py </br>
