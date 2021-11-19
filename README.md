@@ -3,8 +3,9 @@
 Quiz - 3: </br>
 program is in mnist->tests->test_api.py </br>
 
-![Uploading image.png…]()
 
+
+![quiz-3](https://user-images.githubusercontent.com/88537096/142590530-c33ac4b4-7e05-4270-827f-7f2b264aa0da.jpg)
 
 
 
