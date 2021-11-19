@@ -1,4 +1,15 @@
 # Ml-ops
+
+Quiz - 3: </br>
+program is in mnist->tests->test_api.py </br>
+
+![Uploading image.png…]()
+
+
+
+
+
+
 Assignment - 9 : </br>
 program is in mnist->api->hello.py </br>
 Date : 18-11-2021 </br>
