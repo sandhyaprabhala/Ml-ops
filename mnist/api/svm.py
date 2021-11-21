@@ -14,7 +14,7 @@ clf = load(best_model_folder)
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route("/predict", methods=['POST'])
+@app.route("/svm_predict", methods=['POST'])
 def predict():
         input_json = request.json
         image = input_json['image']
