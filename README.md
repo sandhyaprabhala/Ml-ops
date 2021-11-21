@@ -1,4 +1,16 @@
 # Ml-ops
+
+Quiz - 3: </br>
+program is in mnist->tests->test_api.py </br>
+
+
+
+![quiz-3](https://user-images.githubusercontent.com/88537096/142590530-c33ac4b4-7e05-4270-827f-7f2b264aa0da.jpg)
+
+
+
+
+
 Assignment - 9 : </br>
 program is in mnist->api->hello.py </br>
 Date : 18-11-2021 </br>
