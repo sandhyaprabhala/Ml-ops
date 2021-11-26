@@ -1,9 +1,9 @@
 # Ml-ops
-Assignment - 9 : </br>
+Assignment - 10 : </br>
 program is in mnist->api->classification_api.py </br>
 docker file is in docker->Dockerfile </br>
 docker_file.sh is also present </br>
-Date : 18-11-2021 </br>
+Date : 26-11-2021 </br>
 
 
 
