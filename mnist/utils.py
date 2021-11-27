@@ -22,8 +22,8 @@ def test(clf,X,y):
 
     return m
 
-def model_path(test_size,value,i):
+def model_path(test_size,c,gmvalue,run,i):
     
-    output_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/mnist/models/test_{}_val_{}_hyperparameter_{}_i_{}".format((test_size/2),(test_size/2),value,i)
+    output_folder = "/home/sandhya/Ml-ops-repo/Ml-ops/mnist/models/test_{}_val_{}_c_{}_gamma_{}_run_{}_i_{}".format((test_size/2),(test_size/2),c,gmvalue,run,i)
     return output_folder
     
