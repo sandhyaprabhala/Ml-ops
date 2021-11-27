@@ -20,6 +20,7 @@ import utils
 from sklearn import tree
 import statistics as st
 
+
 digits = datasets.load_digits()
 
 _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
@@ -35,6 +36,7 @@ for ax, image, label in zip(axes, digits.images, digits.target):
 measures_Train_A = []
 measures_Dev_A = []
 measures_Test_A = []
+
 
 n_samples = len(digits.images)
 data = digits.images.reshape((n_samples, -1))
