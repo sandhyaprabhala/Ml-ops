@@ -1,4 +1,39 @@
 # Ml-ops
+
+Final Exam : </br>
+program is in mnist->compare_classifiers.py </br>
+Date : 27-11-2021 </br>
+
+
+
+
+![final_exam_1](https://user-images.githubusercontent.com/88537096/143683565-30b842b4-189c-4835-b77c-e38a76212b65.png)
+
+The classifier used is Support Vector Machine. </br>
+Here the 2 hyperparameters under consideration are C and Gamma values. </br>
+The C parameter indicates how much to avoid misclassifying each training example. </br>
+The Gamma parameter is the inverse of the radius of influence of samples selected by the model as support vectors.</br>
+
+For the Train:Dev:Valid split of 70:15:15, C and Gamma are randomly choosen and corresponding Accuracies for Train, dev, and test splits are calculated. </br>
+
+For large values of C, it can be seen that a smaller-margin of hyperplane is choosen, and the corresponding Accuracies are found to be high. This tells us that the hyperplane correctly classifies the training points. <\br>
+Gamma decides the curvature for a decision boundary and is set before the model is trained. The range of gamma here is [1e-05,0.0001,0.001,0.01], which is known to give the best results for the given digit dataset. <\br>
+
+When we combine both the hyperparameters, it has been seen that for higher values of C, even the smaller radius of decision boundary (gamma) gives a good accuracy, on th eother hand for smaller values of C, Gamma = 0.01 gives a good accuracy. <\br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Assignment - 9 : </br>
 program is in mnist->api->hello.py </br>
 Date : 18-11-2021 </br>
