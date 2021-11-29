@@ -14,10 +14,14 @@ import matplotlib.pyplot as plt
 from skimage.transform import rescale
 import numpy as np
 from joblib import dump, load
+import seaborn as sns
 import os
+import pandas as pd
 import utils
 from sklearn import tree
 import statistics as st
+from numpy.lib.arraysetops import unique
+from sklearn.metrics import accuracy_score,f1_score,confusion_matrix
 
 digits = datasets.load_digits()
 
@@ -29,50 +33,42 @@ for ax, image, label in zip(axes, digits.images, digits.target):
 
 #classification
 
-#flatten the image
-
-measures_A = []
-measures_B = []
-
 n_samples = len(digits.images)
 data = digits.images.reshape((n_samples, -1))
 
-test_size = 0.3
-
-print("\nTrain:Test:valid\tBest Gamma\tBest Depth\tA_Test_acc\tB_Test_acc\tA_f1_score\tB_f1_score\n")
+train_data_size = 0.8
+test_size = 0.2
+collection = []
+print("\nTrain:Test:valid\tTrain_Set_Split\t\tBest Gamma\tA_Test_acc\tA_f1_score\n")
 #Train-Validation-Test split
-X_train, X_test, X_val, y_train,y_test,y_val = utils.create_splits(data,digits.target,test_size)
-       
-depths = [5,6,7,8]
-gammas = [1e-05,0.0001,0.001,0.01]
-for i in range(5):
-    model_candidates_A = []
-    model_candidates_B = []
-    for gmvalue,max_depth in zip(gammas,depths):
+X_train, X_test, X_val, y_train,y_test,y_val = utils.create_splits(data,digits.target,train_data_size)
 
-        #Create a classifier: a support vector classifier
+train_splits= [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]       
+gammas = [1e-05,0.0001,0.001,0.01]
+for i in train_splits:
+    if i != 1:
+        x_train, Y_train= utils.create_splits_train(X_train,y_train,i)
+    else:
+        x_train, Y_train = X_train,y_train
+    (unique,counts) = np.unique(Y_train,return_counts=True)
+    freq = np.asarray((unique,counts)).T
+    model_candidates_A = []
+    for gmvalue in gammas:
+        #Create a classifier: a support vector classifiera
         clf_A = svm.SVC(gamma=gmvalue)
-        clf_B = tree.DecisionTreeClassifier(max_depth = max_depth)
 
         #Learn the digits on the train data
-        clf_A.fit(X_train, y_train)
-        clf_B.fit(X_train, y_train)
+        clf_A.fit(x_train, Y_train)
 
         #Predict digits on the validation data
-        metrics_val_A = utils.test(clf_A,X_val,y_val)
-        metrics_val_B = utils.test(clf_B,X_val,y_val)
+        metrics_val_A = utils.val(clf_A,X_val,y_val,i)
 
-        candidate_A ={"model" : clf_A,"acc_valid" : metrics_val_A['acc'],"f1_valid" : metrics_val_A['f1'], "gamma" : gmvalue}
-        candidate_B ={"model" : clf_B,"acc_valid" : metrics_val_B['acc'],"f1_valid" : metrics_val_B['f1'], "depth" : max_depth}
+        candidate_A ={"model" : clf_A,"acc_valid" : metrics_val_A['acc'],"f1_valid" : metrics_val_A['f1'], "%_train_data":metrics_val_A["%_train_data"],"gamma" : gmvalue}
         model_candidates_A.append(candidate_A)
-        model_candidates_B.append(candidate_B)
 
         output_folder_A = utils.model_path(test_size,gmvalue,i)
         os.mkdir(output_folder_A)
-        output_folder_B = utils.model_path(test_size,max_depth,i)
-        os.mkdir(output_folder_B)
         dump(clf_A, os.path.join(output_folder_A,"models.joblib"))
-        dump(clf_B, os.path.join(output_folder_B,"models.joblib"))
 
     #loading the best model
     #predicting the test data on the best hyperparameter
@@ -84,27 +80,31 @@ for i in range(5):
     clf_A = load(os.path.join(best_model_folder_A,"models.joblib"))
 
 
-    max_candidate_B = max(model_candidates_B, key = lambda x :x["f1_valid"])
-    best_depth = max_candidate_B["depth"]
-    
-    best_model_folder_B = "/home/sandhya/Ml-ops-repo/Ml-ops/mnist/models/test_{}_val_{}_hyperparameter_{}_i_{}".format((test_size/2),(test_size/2),best_depth,i)
-    clf_B = load(os.path.join(best_model_folder_B,"models.joblib"))
-
-
-
     #printing accuracies
-    metrics_test_A = utils.test(clf_A,X_test,y_test)
-    metrics_test_B = utils.test(clf_B,X_test,y_test)
-    
-    measures_A.append(metrics_test_A['acc'])
-    measures_B.append(metrics_test_B['acc'])
+    metrics_test_A, predicted = utils.test(clf_A,X_test,y_test) 
 
-    print("{} : {} : {}  \t{}\t\t{}\t\t{}\t\t{}\t\t{}\t\t{}".format((1-test_size),(test_size/2),(test_size/2),best_gamma,best_depth,round(metrics_test_A['acc'],4),round(metrics_test_B['acc'],4),round(metrics_test_A['f1'],4),round(metrics_test_B['f1'],4)))
+    print("{} : {} : {}  \t{}\t\t\t{}\t\t{}\t\t{}".format((1-test_size),(test_size/2),(test_size/2),i,best_gamma,round(metrics_test_A['acc'],4),round(metrics_test_A['f1'],4)))
 
-print("\nMean and Standard Deviation for clf_A (SVM):")
-print("\nMean: {}".format(st.mean(measures_A)))
-print("Standard Deviation: {}\n".format(st.stdev(measures_A)))
+    plt.figure()
+    cm = confusion_matrix(y_test,predicted)
+    cm
+    sns.heatmap(cm,annot=True)
+    plt.xlabel('Actual')
+    plt.ylabel('Predicted')
+    filename = "Confusion-Matrix for "+str(i*100)+" training data.png"
+    plt.savefig(filename)
+    if metrics_test_A:
+        test_info = {
+            "Test Accuracy":metrics_test_A['acc'],
+            "Test F1 Score":metrics_test_A['f1']
+        }
+    max_candidate_A.update(test_info)
+    collection.append(max_candidate_A)
 
-print("\nMean and Standard Deviation for clf_B (Decision Tree):")
-print("\nMean: {}".format(st.mean(measures_B)))
-print("Standard Deviation: {}\n".format(st.stdev(measures_B)))
+df = pd.DataFrame(collection)
+plt.figure()
+plt.plot(df['%_train_data'],df['Test F1 Score'])
+plt.xlabel("Training data %")
+plt.ylabel("Test F1 Score")
+plt.title("Amount of Training data   Vs.  Test F1 Score")
+plt.savefig("dataVSf1.png")

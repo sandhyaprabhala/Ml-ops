@@ -4,12 +4,31 @@ from sklearn import datasets, svm, metrics
 import os
 from sklearn import tree
 
-def create_splits(data,target,test_size):
-
-    X_train, X_test, y_train, y_test = train_test_split(data, target, test_size= test_size, random_state=1)
-    X_test, X_val, y_test, y_val = train_test_split(X_test, y_test, test_size=0.5, random_state=1)
+def create_splits(data,target,train_data_size):
     
-    return X_train, X_test, X_val, y_train,y_test,y_val
+    test_data_size = 0.1
+    valid_data_size = 0.1
+    train_x,test_x,train_y,test_y = train_test_split(data,target,train_size=train_data_size)
+    val_x,test_x,val_y,test_y = train_test_split(test_x,test_y,train_size=(valid_data_size/(valid_data_size + test_data_size)))
+
+    return train_x, test_x, val_x, train_y, test_y, val_y
+
+def create_splits_train(X_train,y_train,i):
+
+   X_train,_,Y_train,_ =  train_test_split(X_train,y_train,train_size=i)
+   return X_train,Y_train
+
+def val(clf,X,y,i):
+
+    m = dict()
+    predicted = clf.predict(X)
+    acc_1 = metrics.accuracy_score(y_pred=predicted, y_true=y)
+    f1_score = metrics.f1_score(y_pred=predicted, y_true=y, average='macro')
+    m["%_train_data"] = i*100
+    m["acc"] = acc_1
+    m["f1"] = f1_score
+
+    return m
 
 def test(clf,X,y):
 
@@ -20,7 +39,7 @@ def test(clf,X,y):
     m["acc"] = acc_1
     m["f1"] = f1_score
 
-    return m
+    return m, predicted
 
 def model_path(test_size,value,i):
     
