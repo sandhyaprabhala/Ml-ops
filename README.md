@@ -1,4 +1,54 @@
 # Ml-ops
+
+Assignment - 11 : </br>
+program is in mnist->compare_classification.py </br>
+we store the models in models folder, mnist->models</br>
+Date : 29-11-2021 </br>
+
+
+
+
+
+![Assignment-11](https://user-images.githubusercontent.com/88537096/143919849-02992ac7-0cab-4bc9-97be-82c7a67f4726.png) <br>
+
+
+--------------------------------------------------------------------------------------------
+
+We have the following confusion matrices: </br>
+Using 10% train data</br>
+![Confusion-Matrix for 10 0 training data](https://user-images.githubusercontent.com/88537096/143920033-31e2ac28-3e96-4681-bb65-d0c23d99f944.png) </br>
+
+Using 20% train data</br>
+![Confusion-Matrix for 20 0 training data](https://user-images.githubusercontent.com/88537096/143920105-660ea486-4a12-4fce-b256-3e045b20fd72.png)</br>
+
+Using 30% train data</br>
+![Confusion-Matrix for 30 0 training data](https://user-images.githubusercontent.com/88537096/143920131-104940f7-97c8-47e4-93ef-08227f6120d0.png)</br>
+
+Using 40% train data</br>
+![Confusion-Matrix for 40 0 training data](https://user-images.githubusercontent.com/88537096/143920161-ecfb24fc-d064-462c-bcc7-1738a3617048.png)</br>
+
+Using 50% train data</br>
+![Confusion-Matrix for 50 0 training data](https://user-images.githubusercontent.com/88537096/143920406-4fb217d6-6e00-46fa-a508-7c86a71a4d80.png)</br>
+
+Using 60% train data</br>
+![Confusion-Matrix for 60 0 training data](https://user-images.githubusercontent.com/88537096/143920415-b66ba956-64a9-40f7-8e82-c4beec69ddda.png)</br>
+
+Using 70% train data</br>
+![Confusion-Matrix for 70 0 training data](https://user-images.githubusercontent.com/88537096/143920480-31ccaba3-767f-4a85-98b8-f761ddab248d.png)</br>
+
+Using 80% train data</br>
+![Confusion-Matrix for 80 0 training data](https://user-images.githubusercontent.com/88537096/143920502-9b469a64-4bd3-4bf5-9cce-02804b8a5525.png)</br>
+
+Using 90% train data</br>
+![Confusion-Matrix for 90 0 training data](https://user-images.githubusercontent.com/88537096/143920589-cc3e1fa8-e0b7-4399-a174-a706f34243dd.png)</br>
+
+Using 100% train data</br>
+![Confusion-Matrix for 100 training data](https://user-images.githubusercontent.com/88537096/143920601-3ba40c98-6ffb-40bf-bf12-5cd4fad126a6.png)</br>
+
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
 Assignment - 10 : </br>
 program is in mnist->api->classification_api.py </br>
 docker file is in docker->Dockerfile </br>
